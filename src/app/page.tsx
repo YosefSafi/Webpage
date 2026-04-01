@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import KineticBackground from '@/components/KineticBackground';
-import { Cloud, Code, Brain, Database, Mail, Phone, ExternalLink, Cpu, Activity, Fingerprint, Zap, GraduationCap } from 'lucide-react';
+import { Cloud, Code, Brain, Database, Mail, Phone, ExternalLink, Cpu, Activity, Fingerprint, Zap, GraduationCap, Wifi, Radio, Send } from 'lucide-react';
 
 const SKILLS = [
   { category: 'Cloud Infrastructure', items: ['.NET Cloud', 'Azure', 'DevOps', 'CI/CD Pipelines'], icon: <Cloud size={24} /> },
@@ -47,8 +47,6 @@ export default function Home() {
     <main className="relative bg-black text-white selection:bg-cyan-500 selection:text-black min-h-screen">
       <AnimatePresence>{loading && <LoadingScreen />}</AnimatePresence>
       <KineticBackground />
-      
-      {/* HUD ELEMENTS */}
       <HUD />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12">
@@ -68,11 +66,11 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
             <div>
               <h2 className="text-8xl font-black uppercase mb-12 italic text-white/10">Logic</h2>
-              <p className="text-3xl text-white/60 leading-tight mb-12">DECRYPTING TECHNICAL STACKS AND SYSTEM DEPENDENCIES.</p>
+              <p className="text-3xl text-white/60 leading-tight mb-12 uppercase tracking-tighter">Decrypting technical stacks and system dependencies.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {SKILLS.map((s, i) => (
-                <div key={i} className="glass-card p-8 group hover:bg-[var(--neon-cyan)] hover:text-black transition-all">
+                <div key={i} className="glass-card p-8 group hover:bg-[var(--neon-cyan)] hover:text-black transition-all border-none">
                   <div className="mb-8">{s.icon}</div>
                   <h4 className="font-bold uppercase tracking-widest mb-4">{s.category}</h4>
                   <div className="space-y-1 opacity-60 group-hover:opacity-100 text-xs font-mono uppercase">
@@ -91,7 +89,7 @@ export default function Home() {
             {EXPERIENCE.map((exp, i) => (
               <div key={i} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 <div className="text-9xl font-black opacity-5">0{i+1}</div>
-                <div className="glass-card p-12 relative">
+                <div className="glass-card p-12 relative border-none">
                   <span className="text-[var(--neon-cyan)] font-mono text-sm tracking-[0.5em] mb-4 block uppercase">{exp.period}</span>
                   <h3 className="text-5xl font-black uppercase mb-6">{exp.company}</h3>
                   <p className="text-xl text-white/60 mb-8 font-light leading-relaxed tracking-wide">"{exp.desc}"</p>
@@ -104,7 +102,7 @@ export default function Home() {
           </div>
         </NeuralSection>
 
-        {/* INPUT (EDUCATION) */}
+        {/* INPUT */}
         <NeuralSection>
           <div className="max-w-4xl mx-auto border-t border-white/10 pt-32">
             <h2 className="text-6xl font-black uppercase mb-16 tracking-widest text-center">Neural <span className="text-[var(--neon-cyan)]">Inputs</span></h2>
@@ -120,14 +118,52 @@ export default function Home() {
           </div>
         </NeuralSection>
 
-        {/* UPLINK */}
-        <section className="min-h-screen flex flex-col justify-center border-t border-white/5">
-          <div className="text-center">
-            <h2 className="text-[15vw] font-black uppercase leading-none mb-16 mix-blend-difference">UPLINK</h2>
-            <div className="flex flex-col sm:flex-row justify-center gap-8">
-              <ContactLink href="mailto:Yosefsafi@hotmail.com" label="Email" />
-              <ContactLink href="tel:0760536557" label="Voice" />
-              <ContactLink href="https://github.com/YosefSafi" label="Source" />
+        {/* MAGIC UPLINK OVERHAUL */}
+        <section className="min-h-screen flex flex-col justify-center py-32">
+          <div className="border border-white/10 bg-white/[0.02] backdrop-blur-3xl rounded-[60px] p-8 sm:p-24 relative overflow-hidden">
+            {/* Visualizer Background */}
+            <div className="absolute inset-0 opacity-10 flex items-center justify-around pointer-events-none">
+                {[...Array(20)].map((_, i) => (
+                    <motion.div 
+                        key={i}
+                        animate={{ height: [20, 100, 40, 150, 20] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+                        className="w-1 bg-cyan-500 rounded-full"
+                    />
+                ))}
+            </div>
+
+            <div className="relative z-10 text-center mb-24">
+                <div className="inline-flex items-center gap-3 px-6 py-2 border border-cyan-500/30 rounded-full mb-8">
+                    <Radio size={16} className="text-cyan-500 animate-pulse" />
+                    <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-cyan-500">Signal Ready for Transmission</span>
+                </div>
+                <h2 className="text-[8vw] font-black uppercase tracking-tighter leading-none mb-4">INITIATE<br/><span className="text-[var(--neon-cyan)] italic">UPLINK</span></h2>
+                <p className="text-white/40 font-mono text-sm uppercase tracking-[0.2em]">Select communication channel to begin synchronization.</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
+                <UplinkChannel 
+                    href="mailto:Yosefsafi@hotmail.com" 
+                    icon={<Mail size={24} />} 
+                    label="Secure Email" 
+                    id="DATA_SYNC" 
+                    status="ENCRYPTED"
+                />
+                <UplinkChannel 
+                    href="tel:0760536557" 
+                    icon={<Phone size={24} />} 
+                    label="Direct Voice" 
+                    id="VOICE_COMMS" 
+                    status="READY"
+                />
+                <UplinkChannel 
+                    href="https://github.com/YosefSafi" 
+                    icon={<ExternalLink size={24} />} 
+                    label="Source Code" 
+                    id="GIT_REPO" 
+                    status="PUBLIC"
+                />
             </div>
           </div>
         </section>
@@ -148,26 +184,41 @@ function HUD() {
         <span className="text-[10px] font-mono tracking-[0.5em] uppercase opacity-40">System Core Active</span>
       </div>
       <div className="fixed bottom-12 right-12 z-[100] mix-blend-difference text-right">
-        <span className="text-[8px] font-mono uppercase opacity-30 block mb-2">Internal Integrity</span>
+        <span className="text-[8px] font-mono uppercase opacity-30 block mb-2 tracking-tighter">Internal Integrity Analysis</span>
         <span className="text-xs font-mono font-bold tracking-[0.2em] text-[var(--neon-cyan)]">NEURAL_VERIFIED_2026</span>
       </div>
     </>
   );
 }
 
-function ContactLink({ href, label }: { href: string, label: string }) {
-  return (
-    <a href={href} className="group relative px-12 py-6 overflow-hidden glass-card border-none">
-      <div className="absolute inset-0 bg-[var(--neon-cyan)] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-      <span className="relative z-10 text-2xl font-black uppercase tracking-widest group-hover:text-black transition-colors">{label}</span>
-    </a>
-  );
+function UplinkChannel({ href, icon, label, id, status }: { href: string, icon: any, label: string, id: string, status: string }) {
+    return (
+        <a href={href} className="group relative block p-8 bg-white/[0.03] border border-white/5 rounded-3xl hover:bg-cyan-500 transition-all duration-500">
+            <div className="flex justify-between items-start mb-12">
+                <div className="text-white group-hover:text-black transition-colors">{icon}</div>
+                <div className="text-right">
+                    <div className="text-[8px] font-mono uppercase text-white/30 group-hover:text-black/50 transition-colors">Channel ID</div>
+                    <div className="text-[10px] font-mono font-bold text-white/60 group-hover:text-black transition-colors">{id}</div>
+                </div>
+            </div>
+            <h4 className="text-2xl font-black uppercase text-white group-hover:text-black transition-colors mb-2">{label}</h4>
+            <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 bg-cyan-500 group-hover:bg-black rounded-full animate-pulse" />
+                <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-white/40 group-hover:text-black/60 transition-colors">Status: {status}</span>
+            </div>
+            
+            {/* Hover Arrow */}
+            <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all">
+                <Send size={20} className="text-black" />
+            </div>
+        </a>
+    )
 }
 
 function LoadingScreen() {
   return (
     <motion.div exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center p-12">
-      <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }} className="w-px h-64 bg-gradient-to-b from-transparent via-[var(--neon-cyan)] to-transparent" />
+      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.2, 1, 0.2] }} transition={{ duration: 2, repeat: Infinity }} className="w-px h-64 bg-gradient-to-b from-transparent via-[var(--neon-cyan)] to-transparent" />
       <p className="mt-12 font-mono text-[var(--neon-cyan)] tracking-[1em] uppercase text-[10px] animate-pulse">Establishing Synthetic Uplink</p>
     </motion.div>
   );

@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -15,6 +16,7 @@ export default function CustomCursor() {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+      setCoords({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -36,6 +38,21 @@ export default function CustomCursor() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999]">
+      {/* HUD Coordinates - The "Character" */}
+      <motion.div
+        style={{
+          translateX: cursorXSpring,
+          translateY: cursorYSpring,
+          left: 25,
+          top: 25,
+        }}
+        className="absolute font-mono text-[8px] tracking-tighter text-cyan-500/50 flex flex-col gap-0"
+      >
+        <span>X: {coords.x}</span>
+        <span>Y: {coords.y}</span>
+        <span className="mt-1 animate-pulse">{isHovering ? "DATA_LINK_DETECTED" : "SCANNING_ENVIRONMENT..."}</span>
+      </motion.div>
+
       {/* Target Crosshair */}
       <motion.div
         style={{
@@ -44,12 +61,14 @@ export default function CustomCursor() {
           left: -20,
           top: -20,
         }}
-        className="absolute w-10 h-10 border border-cyan-500/20 rounded-lg flex items-center justify-center"
+        animate={{
+            rotate: isHovering ? 90 : 0,
+            scale: isHovering ? 1.2 : 1
+        }}
+        className="absolute w-10 h-10 border border-cyan-500/20 rounded-sm"
       >
-        <div className="w-[1px] h-2 bg-cyan-500 absolute top-0" />
-        <div className="w-[1px] h-2 bg-cyan-500 absolute bottom-0" />
-        <div className="h-[1px] w-2 bg-cyan-500 absolute left-0" />
-        <div className="h-[1px] w-2 bg-cyan-500 absolute right-0" />
+        <div className="w-px h-full bg-cyan-500/10 absolute left-1/2 -translate-x-1/2" />
+        <div className="h-px w-full bg-cyan-500/10 absolute top-1/2 -translate-y-1/2" />
       </motion.div>
 
       {/* Main Core */}
@@ -57,14 +76,15 @@ export default function CustomCursor() {
         style={{
           translateX: cursorXSpring,
           translateY: cursorYSpring,
-          left: -4,
-          top: -4,
+          left: -3,
+          top: -3,
         }}
         animate={{
-          scale: isHovering ? 4 : 1,
-          backgroundColor: isHovering ? 'rgba(255, 0, 255, 0.5)' : '#00ffff',
+          scale: isHovering ? 3 : 1,
+          backgroundColor: isHovering ? '#ff00ff' : '#00ffff',
+          boxShadow: isHovering ? '0 0 20px #ff00ff' : '0 0 15px #00ffff',
         }}
-        className="absolute w-2 h-2 rounded-full shadow-[0_0_15px_#00ffff]"
+        className="absolute w-1.5 h-1.5 rounded-full"
       />
 
       {/* Orbital Ring */}
@@ -82,19 +102,6 @@ export default function CustomCursor() {
         }}
         transition={{ rotate: { repeat: Infinity, duration: 4, ease: "linear" } }}
         className="absolute w-[60px] h-[60px] rounded-full border border-dashed border-opacity-30"
-      />
-
-      {/* Scan Line */}
-      <motion.div
-        style={{
-          translateX: cursorXSpring,
-          translateY: cursorYSpring,
-          left: -50,
-          top: -50,
-        }}
-        animate={{ y: [0, 100, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[100px] h-[1px] bg-cyan-500/10 shadow-[0_0_5px_cyan]"
       />
     </div>
   );
