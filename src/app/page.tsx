@@ -2,7 +2,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import KineticBackground from '@/components/KineticBackground';
-import { Cloud, Code, Brain, Database, Mail, Phone, ExternalLink, Cpu, Activity, Fingerprint, Zap, GraduationCap, Wifi, Radio, Send } from 'lucide-react';
+import { Cloud, Code, Brain, Database, Mail, Phone, ExternalLink, Cpu, Activity, Fingerprint, Zap, GraduationCap, Radio, Send, Terminal, Link2, ShieldCheck } from 'lucide-react';
 
 const SKILLS = [
   { category: 'Cloud Infrastructure', items: ['.NET Cloud', 'Azure', 'DevOps', 'CI/CD Pipelines'], icon: <Cloud size={24} /> },
@@ -55,9 +55,9 @@ export default function Home() {
         <section className="h-screen flex flex-col justify-center">
           <motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }}>
             <h1 className="text-[10vw] font-black leading-[0.8] tracking-tighter uppercase mb-8">
-              SYNTHETIC<br/><span className="text-[var(--neon-cyan)] italic">ENGINEER</span>
+              AGENTIC<br/><span className="text-[var(--neon-cyan)] italic">ENGINEERING</span>
             </h1>
-            <p className="text-2xl sm:text-4xl text-white/40 uppercase tracking-[0.3em] font-light">Yosef Safi // Architecture 01</p>
+            <p className="text-2xl sm:text-4xl text-white/40 uppercase tracking-[0.3em] font-light">Yosef Safi // Protocol 01</p>
           </motion.div>
         </section>
 
@@ -118,51 +118,47 @@ export default function Home() {
           </div>
         </NeuralSection>
 
-        {/* MAGIC UPLINK OVERHAUL */}
+        {/* FUTURISTIC UPLINK OVERHAUL */}
         <section className="min-h-screen flex flex-col justify-center py-32">
-          <div className="border border-white/10 bg-white/[0.02] backdrop-blur-3xl rounded-[60px] p-8 sm:p-24 relative overflow-hidden">
-            {/* Visualizer Background */}
-            <div className="absolute inset-0 opacity-10 flex items-center justify-around pointer-events-none">
-                {[...Array(20)].map((_, i) => (
-                    <motion.div 
-                        key={i}
-                        animate={{ height: [20, 100, 40, 150, 20] }}
-                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
-                        className="w-1 bg-cyan-500 rounded-full"
-                    />
-                ))}
+          <div className="bg-white/[0.01] border border-white/5 backdrop-blur-2xl rounded-[80px] p-8 sm:p-24 relative overflow-hidden">
+            {/* Ambient Background Grid */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none" 
+                 style={{ backgroundImage: 'radial-gradient(var(--neon-cyan) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+            <div className="relative z-10 text-center mb-32">
+                <motion.div 
+                    animate={{ scale: [1, 1.05, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                    className="inline-flex items-center gap-4 px-8 py-3 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-12"
+                >
+                    <Radio size={18} className="text-cyan-400" />
+                    <span className="text-xs font-mono uppercase tracking-[0.5em] text-cyan-400 font-bold">Uplink Protocol Active</span>
+                </motion.div>
+                <h2 className="text-[10vw] font-black uppercase tracking-tighter leading-none mb-6">INITIATE<br/><span className="text-[var(--neon-cyan)] italic">CONNECTION</span></h2>
+                <p className="text-white/30 font-mono text-sm uppercase tracking-[0.3em] max-w-lg mx-auto">Select a secure data node below to establish a direct neural synchronization with the primary source.</p>
             </div>
 
-            <div className="relative z-10 text-center mb-24">
-                <div className="inline-flex items-center gap-3 px-6 py-2 border border-cyan-500/30 rounded-full mb-8">
-                    <Radio size={16} className="text-cyan-500 animate-pulse" />
-                    <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-cyan-500">Signal Ready for Transmission</span>
-                </div>
-                <h2 className="text-[8vw] font-black uppercase tracking-tighter leading-none mb-4">INITIATE<br/><span className="text-[var(--neon-cyan)] italic">UPLINK</span></h2>
-                <p className="text-white/40 font-mono text-sm uppercase tracking-[0.2em]">Select communication channel to begin synchronization.</p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
-                <UplinkChannel 
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+                <FuturisticLink 
                     href="mailto:Yosefsafi@hotmail.com" 
-                    icon={<Mail size={24} />} 
-                    label="Secure Email" 
-                    id="DATA_SYNC" 
-                    status="ENCRYPTED"
+                    icon={<Mail size={28} />} 
+                    title="Direct Mail" 
+                    subtitle="Secure Transmission"
+                    code="ST-MAILX"
                 />
-                <UplinkChannel 
+                <FuturisticLink 
                     href="tel:0760536557" 
-                    icon={<Phone size={24} />} 
-                    label="Direct Voice" 
-                    id="VOICE_COMMS" 
-                    status="READY"
+                    icon={<Phone size={28} />} 
+                    title="Voice Sync" 
+                    subtitle="Real-time Uplink"
+                    code="ST-VOICE"
                 />
-                <UplinkChannel 
+                <FuturisticLink 
                     href="https://github.com/YosefSafi" 
-                    icon={<ExternalLink size={24} />} 
-                    label="Source Code" 
-                    id="GIT_REPO" 
-                    status="PUBLIC"
+                    icon={<ExternalLink size={28} />} 
+                    title="Core Logic" 
+                    subtitle="GitHub Repository"
+                    code="ST-REPOS"
                 />
             </div>
           </div>
@@ -175,51 +171,62 @@ export default function Home() {
   );
 }
 
+function FuturisticLink({ href, icon, title, subtitle, code }: { href: string, icon: any, title: string, subtitle: string, code: string }) {
+    return (
+        <a href={href} className="group relative p-10 bg-black/40 border border-white/10 rounded-[40px] overflow-hidden transition-all duration-700 hover:border-cyan-500/50 hover:bg-cyan-500">
+            {/* Background Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            
+            {/* Top Bar Decoration */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-white/5 group-hover:bg-black/20" />
+            
+            <div className="relative z-10">
+                <div className="flex justify-between items-center mb-16">
+                    <div className="p-4 bg-white/5 rounded-2xl group-hover:bg-black/10 transition-colors">
+                        {icon}
+                    </div>
+                    <div className="text-right font-mono">
+                        <div className="text-[10px] text-white/30 group-hover:text-black/40 uppercase mb-1">Terminal ID</div>
+                        <div className="text-xs text-white/60 group-hover:text-black font-bold tracking-widest">{code}</div>
+                    </div>
+                </div>
+                
+                <h4 className="text-3xl font-black uppercase mb-2 tracking-tighter group-hover:text-black transition-colors">{title}</h4>
+                <p className="text-xs font-mono uppercase tracking-[0.3em] text-white/40 group-hover:text-black/60 transition-colors">{subtitle}</p>
+                
+                <div className="mt-8 pt-8 border-t border-white/5 group-hover:border-black/10 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-cyan-500 group-hover:bg-black rounded-full animate-pulse" />
+                        <span className="text-[10px] font-mono text-cyan-500 group-hover:text-black uppercase font-bold tracking-widest">Connect</span>
+                    </div>
+                    <Send size={18} className="text-white/20 group-hover:text-black group-hover:translate-x-2 transition-all duration-500" />
+                </div>
+            </div>
+        </a>
+    )
+}
+
 function HUD() {
   return (
     <>
       <div className="fixed top-12 left-12 z-[100] flex items-center gap-6 mix-blend-difference">
         <Activity size={20} className="text-[var(--neon-cyan)] animate-pulse" />
         <div className="h-[1px] w-24 bg-white/20" />
-        <span className="text-[10px] font-mono tracking-[0.5em] uppercase opacity-40">System Core Active</span>
+        <span className="text-[10px] font-mono tracking-[0.5em] uppercase opacity-40">Neural Link Optimal</span>
       </div>
       <div className="fixed bottom-12 right-12 z-[100] mix-blend-difference text-right">
-        <span className="text-[8px] font-mono uppercase opacity-30 block mb-2 tracking-tighter">Internal Integrity Analysis</span>
-        <span className="text-xs font-mono font-bold tracking-[0.2em] text-[var(--neon-cyan)]">NEURAL_VERIFIED_2026</span>
+        <span className="text-[8px] font-mono uppercase opacity-30 block mb-2 tracking-tighter">Auth Signature Verified</span>
+        <span className="text-xs font-mono font-bold tracking-[0.2em] text-[var(--neon-cyan)]">AGENTIC_ROOT_2026</span>
       </div>
     </>
   );
-}
-
-function UplinkChannel({ href, icon, label, id, status }: { href: string, icon: any, label: string, id: string, status: string }) {
-    return (
-        <a href={href} className="group relative block p-8 bg-white/[0.03] border border-white/5 rounded-3xl hover:bg-cyan-500 transition-all duration-500">
-            <div className="flex justify-between items-start mb-12">
-                <div className="text-white group-hover:text-black transition-colors">{icon}</div>
-                <div className="text-right">
-                    <div className="text-[8px] font-mono uppercase text-white/30 group-hover:text-black/50 transition-colors">Channel ID</div>
-                    <div className="text-[10px] font-mono font-bold text-white/60 group-hover:text-black transition-colors">{id}</div>
-                </div>
-            </div>
-            <h4 className="text-2xl font-black uppercase text-white group-hover:text-black transition-colors mb-2">{label}</h4>
-            <div className="flex items-center gap-3">
-                <div className="w-1.5 h-1.5 bg-cyan-500 group-hover:bg-black rounded-full animate-pulse" />
-                <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-white/40 group-hover:text-black/60 transition-colors">Status: {status}</span>
-            </div>
-            
-            {/* Hover Arrow */}
-            <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all">
-                <Send size={20} className="text-black" />
-            </div>
-        </a>
-    )
 }
 
 function LoadingScreen() {
   return (
     <motion.div exit={{ opacity: 0 }} className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center p-12">
       <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.2, 1, 0.2] }} transition={{ duration: 2, repeat: Infinity }} className="w-px h-64 bg-gradient-to-b from-transparent via-[var(--neon-cyan)] to-transparent" />
-      <p className="mt-12 font-mono text-[var(--neon-cyan)] tracking-[1em] uppercase text-[10px] animate-pulse">Establishing Synthetic Uplink</p>
+      <p className="mt-12 font-mono text-[var(--neon-cyan)] tracking-[1em] uppercase text-[10px] animate-pulse">Establishing Agentic Connection</p>
     </motion.div>
   );
 }
