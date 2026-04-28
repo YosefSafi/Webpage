@@ -41,7 +41,10 @@ function NeuralSection({ children }: { children: React.ReactNode }) {
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  useEffect(() => { setTimeout(() => setLoading(false), 2500); }, []);
+  useEffect(() => { 
+    const timer = setTimeout(() => setLoading(false), 2500); 
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <main className="relative bg-black text-white selection:bg-cyan-500 selection:text-black min-h-screen">
@@ -119,7 +122,7 @@ export default function Home() {
         </NeuralSection>
 
         {/* FUTURISTIC UPLINK OVERHAUL */}
-        <section className="min-h-screen flex flex-col justify-center py-32">
+        <section className="min-h-screen flex flex-col justify-center py-32 relative z-[110]">
           <div className="bg-white/[0.01] border border-white/5 backdrop-blur-2xl rounded-[80px] p-8 sm:p-24 relative overflow-hidden">
             {/* Ambient Background Grid */}
             <div className="absolute inset-0 opacity-20 pointer-events-none" 
@@ -138,27 +141,31 @@ export default function Home() {
                 <p className="text-white/30 font-mono text-sm uppercase tracking-[0.3em] max-w-lg mx-auto">Select a secure data node below to establish a direct neural synchronization with the primary source.</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+            <div className="flex flex-wrap justify-center gap-12 relative z-10 px-8">
                 <FuturisticLink 
                     href="mailto:Yosefsafi@hotmail.com" 
                     icon={<Mail size={28} />} 
                     title="Direct Mail" 
                     subtitle="Secure Transmission"
                     code="ST-MAILX"
+                    color="#00ffff"
                 />
                 <FuturisticLink 
-                    href="tel:0760536557" 
+                    href="tel:+467605365" 
                     icon={<Phone size={28} />} 
                     title="Voice Sync" 
                     subtitle="Real-time Uplink"
                     code="ST-VOICE"
+                    color="#ff00ff"
                 />
                 <FuturisticLink 
-                    href="https://github.com/YosefSafi" 
-                    icon={<ExternalLink size={28} />} 
-                    title="Core Logic" 
-                    subtitle="GitHub Repository"
-                    code="ST-REPOS"
+                    href="https://www.linkedin.com/in/yosef-safi-6b6257248/" 
+                    icon={<Link2 size={28} />} 
+                    title="Neural Network" 
+                    subtitle="LinkedIn Profile"
+                    code="ST-LINKD"
+                    external
+                    color="#ffff00"
                 />
             </div>
           </div>
@@ -171,54 +178,87 @@ export default function Home() {
   );
 }
 
-function FuturisticLink({ href, icon, title, subtitle, code }: { href: string, icon: any, title: string, subtitle: string, code: string }) {
+function FuturisticLink({ href, icon, title, subtitle, code, external, color }: { href: string, icon: any, title: string, subtitle: string, code: string, external?: boolean, color: string }) {
     return (
-        <a href={href} className="group relative p-10 bg-black/40 border border-white/10 rounded-[40px] overflow-hidden transition-all duration-700 hover:border-cyan-500/50 hover:bg-cyan-500">
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+        <a href={href} 
+           target={external ? "_blank" : undefined}
+           rel={external ? "noopener noreferrer" : undefined}
+           className="group relative p-14 bg-white/[0.01] rounded-[40px] transition-all duration-700 w-full max-w-[480px] border"
+           style={{ 
+              ['--node-color' as any]: color,
+              borderColor: `${color}20`,
+              background: `linear-gradient(135deg, ${color}08 0%, transparent 100%)`
+           }}>
             
-            {/* Top Bar Decoration */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-white/5 group-hover:bg-black/20" />
+            {/* Full Box Color Fill on Hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 rounded-[40px] pointer-events-none" 
+                 style={{ 
+                    background: `linear-gradient(135deg, ${color}15 0%, ${color}05 100%)`,
+                    boxShadow: `inset 0 0 50px ${color}20`
+                 }} />
             
-            <div className="relative z-10">
-                <div className="flex justify-between items-center mb-16">
-                    <div className="p-4 bg-white/5 rounded-2xl group-hover:bg-black/10 transition-colors">
-                        {icon}
+            <div className="relative z-10 transition-transform duration-500 group-hover:-translate-y-1">
+                <div className="flex justify-between items-start mb-16">
+                    <div className="p-5 bg-white/5 rounded-2xl border transition-all duration-500"
+                         style={{ 
+                            borderColor: `${color}30`,
+                            backgroundColor: `${color}10`,
+                            color: color
+                         }}>
+                        <div className="group-hover:scale-110 transition-all duration-500">{icon}</div>
                     </div>
                     <div className="text-right font-mono">
-                        <div className="text-[10px] text-white/30 group-hover:text-black/40 uppercase mb-1">Terminal ID</div>
-                        <div className="text-xs text-white/60 group-hover:text-black font-bold tracking-widest">{code}</div>
+                        <div className="text-[10px] uppercase mb-1 tracking-[0.2em]"
+                             style={{ color: `${color}60` }}>Terminal ID</div>
+                        <div className="text-xs font-bold tracking-widest transition-colors"
+                             style={{ color: color }}>{code}</div>
                     </div>
                 </div>
                 
-                <h4 className="text-3xl font-black uppercase mb-2 tracking-tighter group-hover:text-black transition-colors">{title}</h4>
-                <p className="text-xs font-mono uppercase tracking-[0.3em] text-white/40 group-hover:text-black/60 transition-colors">{subtitle}</p>
+                <h4 className="text-4xl font-black uppercase mb-2 tracking-tighter transition-colors"
+                    style={{ color: color }}>{title}</h4>
+                <p className="text-sm font-mono uppercase tracking-[0.3em] transition-colors"
+                    style={{ color: `${color}60` }}>{subtitle}</p>
                 
-                <div className="mt-8 pt-8 border-t border-white/5 group-hover:border-black/10 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-cyan-500 group-hover:bg-black rounded-full animate-pulse" />
-                        <span className="text-[10px] font-mono text-cyan-500 group-hover:text-black uppercase font-bold tracking-widest">Connect</span>
+                <div className="mt-10 pt-8 border-t flex items-center justify-between"
+                     style={{ borderColor: `${color}20` }}>
+                    <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 rounded-full animate-pulse shadow-[0_0_10px_var(--node-color)]" 
+                             style={{ backgroundColor: color }} />
+                        <span className="text-[10px] font-mono uppercase font-bold tracking-[0.3em] whitespace-nowrap"
+                              style={{ color: color }}>Secure Connection Active</span>
                     </div>
-                    <Send size={18} className="text-white/20 group-hover:text-black group-hover:translate-x-2 transition-all duration-500" />
+                    <div className="group-hover:translate-x-2 transition-all duration-500"
+                         style={{ color: color }}>
+                        <Send size={20} />
+                    </div>
                 </div>
             </div>
+            
+            {/* Hover Border Glow */}
+            <div className="absolute inset-0 border rounded-[40px] transition-all duration-700 pointer-events-none opacity-0 group-hover:opacity-100" 
+                 style={{ borderColor: `${color}60`, boxShadow: `0 0 30px ${color}10` }} />
         </a>
     )
 }
 
 function HUD() {
   return (
-    <>
-      <div className="fixed top-12 left-12 z-[100] flex items-center gap-6 mix-blend-difference">
-        <Activity size={20} className="text-[var(--neon-cyan)] animate-pulse" />
-        <div className="h-[1px] w-24 bg-white/20" />
-        <span className="text-[10px] font-mono tracking-[0.5em] uppercase opacity-40">Neural Link Optimal</span>
+    <div className="fixed top-12 right-12 z-[150] flex flex-col items-end gap-2 mix-blend-difference pointer-events-none">
+      <div className="flex items-center gap-4">
+        <span className="text-[10px] font-mono tracking-[0.4em] uppercase opacity-40">Neural Link Optimal</span>
+        <div className="h-px w-16 bg-white/20" />
+        <Activity size={18} className="text-[var(--neon-cyan)] animate-pulse" />
       </div>
-      <div className="fixed bottom-12 right-12 z-[100] mix-blend-difference text-right">
-        <span className="text-[8px] font-mono uppercase opacity-30 block mb-2 tracking-tighter">Auth Signature Verified</span>
-        <span className="text-xs font-mono font-bold tracking-[0.2em] text-[var(--neon-cyan)]">AGENTIC_ROOT_2026</span>
+      <div className="flex items-center gap-4">
+        <span className="text-[10px] font-mono tracking-[0.4em] uppercase opacity-40">Auth Signature Verified</span>
+        <div className="h-px w-16 bg-white/20" />
+        <Fingerprint size={18} className="text-[var(--neon-cyan)] opacity-60" />
       </div>
-    </>
+      <div className="mt-2 text-right">
+        <span className="text-xs font-mono font-bold tracking-[0.3em] text-[var(--neon-cyan)]">AGENTIC_ROOT_2026</span>
+      </div>
+    </div>
   );
 }
 

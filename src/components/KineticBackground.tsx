@@ -9,7 +9,9 @@ const AI_COMPANIES = [
   { name: 'Mistral', color: '#f5d142' },
   { name: 'Perplexity', color: '#20b2aa' },
   { name: 'NVIDIA', color: '#76b900' },
-  { name: 'Groq', color: '#f96d00' }
+  { name: 'Groq', color: '#f96d00' },
+  { name: 'Gemini', color: '#8E75FF' },
+  { name: 'Claude', color: '#D97757' }
 ];
 
 class Entity {
@@ -93,6 +95,7 @@ export default function KineticBackground() {
   useEffect(() => {
     const c = canvasRef.current!;
     const ctx = c.getContext('2d')!;
+    let animationFrameId: number;
     
     const init = () => {
       c.width = window.innerWidth;
@@ -100,8 +103,12 @@ export default function KineticBackground() {
       entities.current = AI_COMPANIES.map(comp => new Entity(comp.name, comp.color, c.width, c.height));
     };
 
+    const handleMouseMove = (e: MouseEvent) => { 
+      mouse.current = {x: e.clientX, y: e.clientY}; 
+    };
+
     window.addEventListener('resize', init);
-    window.addEventListener('mousemove', (e) => { mouse.current = {x: e.clientX, y: e.clientY}; });
+    window.addEventListener('mousemove', handleMouseMove);
     init();
 
     const loop = () => {
@@ -112,9 +119,15 @@ export default function KineticBackground() {
         e.update(mouse.current.x, mouse.current.y);
         e.draw(ctx);
       });
-      requestAnimationFrame(loop);
+      animationFrameId = requestAnimationFrame(loop);
     };
     loop();
+
+    return () => {
+      window.removeEventListener('resize', init);
+      window.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   return <canvas ref={canvasRef} className="fixed inset-0 z-[-1] bg-black pointer-events-none" />;
